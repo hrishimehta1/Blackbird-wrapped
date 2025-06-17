@@ -109,12 +109,10 @@ npm run build
 4. Push to the branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
-## License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
 
 ## Acknowledgments
 
-- Inspired by Spotify Wrapped
+- Inspired by Spotify Wrapped and Daniel James
 - Built with Next.js and Framer Motion
 - Uses React Icons for UI elements
