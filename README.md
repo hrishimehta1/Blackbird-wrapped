@@ -10,7 +10,7 @@ Before you begin, ensure you have the following installed:
 - Git
 
 ## Visit the Website: 
-[Blackbird Wrapped 2025] (blackbird-wrapped-1x45.vercel.app) 
+[Blackbird Wrapped 2025](blackbird-wrapped-1x45.vercel.app) 
 - if that doesnt work follow the steps below to run it locally
 
 ## Installation Steps
