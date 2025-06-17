@@ -1,15 +1,13 @@
-export function playNFCSound() {
-    let audioContext: AudioContext;
-
-    // Check if AudioContext is available, otherwise try webkitAudioContext
-    if (typeof window !== 'undefined' && window.AudioContext) {
-        audioContext = new window.AudioContext();
-    } else if (typeof window !== 'undefined' && (window as any).webkitAudioContext) {
-        audioContext = new (window as any).webkitAudioContext();
-    } else {
-        console.error('Web Audio API not supported in this browser.');
-        return; // Exit if audio context cannot be created
+// Add type declaration for webkitAudioContext
+declare global {
+    interface Window {
+        webkitAudioContext: typeof AudioContext;
     }
+}
+
+export function playNFCSound() {
+    // Using proper type checking for AudioContext
+    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
     
     const oscillator = audioContext.createOscillator();
     const oscillator2 = audioContext.createOscillator();
