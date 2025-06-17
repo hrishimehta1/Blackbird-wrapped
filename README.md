@@ -22,27 +22,6 @@ cd blackbird-wrapped
 npm install
 ```
 
-3. **Install required packages**
-```bash
-npm install next@latest react@latest react-dom@latest
-npm install framer-motion@latest
-npm install react-icons@latest
-npm install react-countup@latest
-npm install @next/font
-```
-
-4. **Install development dependencies**
-```bash
-npm install -D typescript @types/react @types/node @types/react-dom
-npm install -D tailwindcss postcss autoprefixer
-npm install -D @types/react-countup
-```
-
-5. **Initialize Tailwind CSS**
-```bash
-npx tailwindcss init -p
-```
-
 ## Project Structure
 
 ```
