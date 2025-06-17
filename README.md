@@ -13,7 +13,7 @@ Before you begin, ensure you have the following installed:
 
 1. **Clone the repository**
 ```bash
-git clone https://github.com/yourusername/blackbird-wrapped.git
+git clone https://github.com/hrishimehta1/blackbird-wrapped.git
 cd blackbird-wrapped
 ```
 
