@@ -20,7 +20,7 @@
   }
 }
 
-/* Global Body Styles and Background Animation */
+/* Regular Styling */
 body {
   background: linear-gradient(135deg, #0a0a0a, #1a1a2e, #16213e);
   color: white;
@@ -33,7 +33,7 @@ body {
   perspective: 1200px; /* For 3D transformations */
 }
 
-/* Animated background gradient mesh */
+/* Animated  gradient mesh background */
 body::before {
   content: '';
   position: fixed;
@@ -634,59 +634,6 @@ body::before {
   10% { opacity: 1; transform: translateX(-50%) translateY(0); } /* Fly to center */
   80% { opacity: 1; transform: translateX(-50%) translateY(0); } /* Hold in center */
   100% { opacity: 0; transform: translateX(-50%) translateY(100px); } /* Fly off-screen bottom */
-}
-
-/* Styles for the Typing Animation Container */
-.typing-animation {
-  position: absolute;
-  left: 50%; /* Default to center for top position */
-  transform: translateX(-50%);
-  width: 500px; /* Width for the top typing phase */
-  min-height: 50px;
-  padding: 15px;
-  background: rgba(0, 0, 0, 0.6);
-  border-radius: 10px;
-  color: #00ff88;
-  font-family: var(--font-space-mono), monospace; /* Use the imported Space Mono font */
-  font-size: 1.5em; 
-  border: 1px solid rgba(0, 255, 136, 0.3);
-  box-shadow: 0 0 20px rgba(0, 255, 136, 0.3);
-  overflow: hidden; /* Important for typing effect to hide overflow */
-  white-space: pre-wrap; /* Preserve whitespace and allow text wrapping */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center; /* Center text within the box */
-  opacity: 0; /* Initially hidden */
-  transition: all 0.5s ease-in-out; /* Smooth transitions for position/size changes */
-}
-
-
-.typing-animation.top-position {
-  top: 60%; /* Position below the flying title */
-}
-
-.typing-animation.right-position {
-  right: 5%; /* Position on the right side */
-  top: 50%;
-  transform: translateY(-50%); 
-  width: 400px; 
-  font-size: 2.5em; 
-  text-align: left; 
-  left: unset; 
-  margin: unset; 
-}
-
-
-.typing-animation::after {
-  content: '|';
-  animation: blink-caret 0.75s step-end infinite;
-  margin-left: 5px;
-}
-
-@keyframes blink-caret {
-  from, to { border-color: transparent }
-  50% { border-color: #00ff88; } 
 }
 
 /* Floating Background Elements */
