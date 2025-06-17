@@ -9,8 +9,8 @@ Before you begin, ensure you have the following installed:
 - npm (v9.0.0 or higher)
 - Git
 
-## Visit the Website @: 
-blackbird-wrapped-1x45.vercel.app 
+## Visit the Website: 
+[Blackbird Wrapped 2025] (blackbird-wrapped-1x45.vercel.app) 
 - if that doesnt work follow the steps below to run it locally
 
 ## Installation Steps
