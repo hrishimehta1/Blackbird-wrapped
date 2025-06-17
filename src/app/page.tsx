@@ -19,7 +19,7 @@ const generateScreens = (my2025: typeof data.my2025) => [
     id: 'screen-1',
     title: 'Total Taps',
     stat: my2025.timeAndFrequency.totalCheckIns,
-    description: `You checked into restaurants ${my2022.timeAndFrequency.totalCheckIns} times this year. That's a tap every ${my2022.timeAndFrequency.avgCheckInsPerDay} days!`,
+    description: `You checked into restaurants ${my2025.timeAndFrequency.totalCheckIns} times this year. That's a tap every ${my2022.timeAndFrequency.avgCheckInsPerDay} days!`,
   },
   {
     id: 'screen-2',
