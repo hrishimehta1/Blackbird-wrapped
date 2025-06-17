@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react'; // Removed useMemo
+import React, { useState, useEffect } from 'react';
 import NFCReader from './components/NFCReader';
 import Phone from './components/Phone';
 import Instructions from './components/Instructions';
@@ -19,7 +19,7 @@ const generateScreens = (my2025: typeof data.my2025) => [
     id: 'screen-1',
     title: 'Total Taps',
     stat: my2025.timeAndFrequency.totalCheckIns,
-    description: `You checked into restaurants ${my2025.timeAndFrequency.totalCheckIns} times this year. That's a tap every ${my2025.timeAndFrequency.avgCheckInsPerDay} days!`,
+    description: `You checked into restaurants ${my2022.timeAndFrequency.totalCheckIns} times this year. That's a tap every ${my2022.timeAndFrequency.avgCheckInsPerDay} days!`,
   },
   {
     id: 'screen-2',
@@ -56,8 +56,8 @@ const generateScreens = (my2025: typeof data.my2025) => [
     title: 'Top Restaurants by Spend',
     stat: '',
     description: 'You have expensive taste!',
-    renderList: my2025.restaurantMetrics.topRestaurantsBySpend.slice(0, 5).map((restaurant, index) => 
-      `${index + 1}. ${restaurant.name} - $${restaurant.totalSpent.value.toLocaleString()}`
+    renderList: my2025.restaurantMetrics.topRestaurantsBySpend.slice(0, 5).map((restaurant) => // Removed 'index'
+      `${restaurant.name} - $${restaurant.totalSpent.value.toLocaleString()}`
     ),
   },
   {
@@ -65,8 +65,8 @@ const generateScreens = (my2025: typeof data.my2025) => [
     title: 'Top Cuisines by Count',
     stat: '',
     description: 'You\'re a culinary explorer!',
-    renderList: my2025.cuisineAndPreferences.topCuisinesByCount.slice(0, 5).map((cuisine, index) => 
-      `${index + 1}. ${cuisine.cuisine} (${cuisine.count} visits)`
+    renderList: my2025.cuisineAndPreferences.topCuisinesByCount.slice(0, 5).map((cuisine) => // Removed 'index'
+      `${cuisine.cuisine} (${cuisine.count} visits)`
     ),
   },
   {
@@ -74,7 +74,7 @@ const generateScreens = (my2025: typeof data.my2025) => [
     title: 'Your Dining Personality',
     stat: my2025.uniqueInsights.diningPersonality,
     description: 'Keep exploring your culinary identity!',
-    renderList: my2025.uniqueInsights.personalityTraits.slice(0, 3).map((trait, index) => 
+    renderList: my2025.uniqueInsights.personalityTraits.slice(0, 3).map((trait) => // Removed 'index'
       `- ${trait}`
     ),
   },
@@ -90,7 +90,8 @@ export default function Home() {
   const [isNfcReaderActivated, setIsNfcReaderActivated] = useState(false);
   const [currentScreen, setCurrentScreen] = useState(0);
 
-  const screens = React.useMemo(() => generateScreens(data.my2025), [data.my2025]);
+  // Removed data.my2025 from dependency array as it's a static object reference
+  const screens = React.useMemo(() => generateScreens(data.my2025), []); 
   const totalScreens = screens.length;
 
   const [animationPhase, setAnimationPhase] = useState('initial'); // 'initial', 'flyingTitle', 'nfcInteraction'
