@@ -1,4 +1,4 @@
-'use client';
+'use client'; // component should be rendered on client side 
 
 import React, { useState, useEffect } from 'react';
 import { playNFCSound } from '@/lib/nfc-audio';
@@ -29,6 +29,7 @@ const Phone: React.FC<PhoneProps> = ({ onTap, onScreenChange, screens }) => {
   const totalScreens = screens.length;
 
   // Initialize audio context on first user interaction
+  // Not sure how i got this to work with audio but it worked 
   useEffect(() => {
     const handleFirstClick = () => {
       if (typeof window !== 'undefined' && window.AudioContext) {
