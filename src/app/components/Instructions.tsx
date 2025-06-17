@@ -1,4 +1,4 @@
-'use client';
+'use client'; /* component should be rendered on client side */
 
 import React from 'react';
 
