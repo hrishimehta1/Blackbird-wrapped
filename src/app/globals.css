@@ -1,0 +1,817 @@
+@import "tailwindcss";
+
+/* Root CSS Variables for light/dark mode */
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+/* Global Body Styles and Background Animation */
+body {
+  background: linear-gradient(135deg, #0a0a0a, #1a1a2e, #16213e);
+  color: white;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden; /* Prevent scrolling */
+  perspective: 1200px; /* For 3D transformations */
+}
+
+/* Animated background gradient mesh */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background:
+      radial-gradient(circle at 20% 50%, rgba(0, 255, 136, 0.15) 0%, transparent 50%),
+      radial-gradient(circle at 80% 20%, rgba(0, 136, 255, 0.15) 0%, transparent 50%),
+      radial-gradient(circle at 40% 80%, rgba(255, 0, 136, 0.1) 0%, transparent 50%),
+      radial-gradient(circle at 60% 60%, rgba(255, 136, 0, 0.08) 0%, transparent 50%);
+  animation: backgroundShift 12s ease-in-out infinite;
+  z-index: -1;
+}
+
+@keyframes backgroundShift {
+  0%, 100% {
+      opacity: 0.6;
+      transform: scale(1) rotate(0deg);
+  }
+  33% {
+      opacity: 0.9;
+      transform: scale(1.1) rotate(2deg);
+  }
+  66% {
+      opacity: 0.7;
+      transform: scale(0.95) rotate(-1deg);
+  }
+}
+
+/* Main Container for Phone and NFC Reader */
+.container {
+  display: flex;
+  align-items: center;
+  gap: 150px; /* Space between phone and NFC reader */
+  position: relative;
+  transform-style: preserve-3d; /* Enable 3D transformations for children */
+}
+
+/* Holographic glow effect around the container */
+.container::before {
+  content: '';
+  position: absolute;
+  top: -50px;
+  left: -50px;
+  right: -50px;
+  bottom: -50px;
+  background: conic-gradient(from 0deg, transparent, rgba(0, 255, 136, 0.1), transparent, rgba(0, 136, 255, 0.1), transparent);
+  border-radius: 50px;
+  animation: holographicSpin 8s linear infinite;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: -1;
+}
+
+.container.active::before {
+  opacity: 1;
+}
+
+@keyframes holographicSpin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* NFC Reader Styles */
+.nfc-reader {
+  width: 350px;
+  height: 200px;
+  background: linear-gradient(145deg, #2a2a3e, #1e1e32);
+  border-radius: 15px;
+  border: 2px solid #444;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow:
+      0 10px 30px rgba(0, 0, 0, 0.5),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+}
+
+/* Border glow animation for NFC reader when activated */
+.nfc-reader::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(45deg, transparent, rgba(0, 255, 136, 0.3), transparent);
+  border-radius: 15px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: -1;
+}
+
+.nfc-reader.activated::before {
+  opacity: 1;
+  animation: borderGlow 1s ease-out;
+}
+
+@keyframes borderGlow {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+/* NFC Symbol inside the reader */
+.nfc-symbol {
+  width: 40px;
+  height: 40px;
+  border: 3px solid #00ff88;
+  border-radius: 50%;
+  position: relative;
+  animation: pulse 2s infinite;
+}
+
+.nfc-symbol::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 20px;
+  height: 20px;
+  border: 2px solid #00ff88;
+  border-radius: 50%;
+}
+
+.nfc-symbol::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 8px;
+  height: 8px;
+  background: #00ff88;
+  border-radius: 50%;
+  box-shadow: 0 0 15px rgba(0, 255, 136, 0.8);
+}
+
+@keyframes pulse {
+  0% {
+      transform: scale(1);
+      opacity: 1;
+      box-shadow: 0 0 0 0 rgba(0, 255, 136, 0.7);
+  }
+  50% {
+      transform: scale(1.1);
+      opacity: 0.8;
+      box-shadow: 0 0 0 10px rgba(0, 255, 136, 0);
+  }
+  100% {
+      transform: scale(1);
+      opacity: 1;
+      box-shadow: 0 0 0 0 rgba(0, 255, 136, 0);
+  }
+}
+
+/* Phone Device Styles */
+.phone {
+  width: 350px;
+  height: 700px;
+  background: linear-gradient(145deg, #1a1a1a, #2a2a2a, #1e1e1e);
+  border-radius: 30px;
+  border: 8px solid #333;
+  position: relative;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-origin: center;
+  transform-style: preserve-3d;
+  box-shadow:
+      0 25px 50px rgba(0, 0, 0, 0.4),
+      0 0 0 1px rgba(255, 255, 255, 0.1),
+      inset 0 2px 4px rgba(255, 255, 255, 0.1),
+      inset 0 -2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Phone speaker element */
+.phone::before {
+  content: '';
+  position: absolute;
+  top: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 50px;
+  height: 4px;
+  background: linear-gradient(90deg, #444, #666, #444);
+  border-radius: 2px;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+/* Phone home button/fingerprint sensor */
+.phone::after {
+  content: '';
+  position: absolute;
+  bottom: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40px;
+  height: 40px;
+  border: 2px solid #444;
+  border-radius: 50%;
+  background: radial-gradient(circle, #333, #222);
+}
+
+/* Hover effects for the phone */
+.phone:hover {
+  transform: scale(1.02) rotateY(2deg) rotateX(-1deg);
+  box-shadow:
+      0 30px 60px rgba(0, 0, 0, 0.5),
+      0 0 0 1px rgba(255, 255, 255, 0.15),
+      inset 0 2px 4px rgba(255, 255, 255, 0.15),
+      0 0 30px rgba(0, 255, 136, 0.1);
+}
+
+/* Animation for phone tapping */
+.phone.tapping {
+  animation: tapMotion 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  z-index: 10;
+}
+
+@keyframes tapMotion {
+  0%, 100% { 
+    transform: translateX(0) translateY(0) rotateX(0) rotateY(0); 
+  }
+  25% { 
+    transform: translateX(-100px) translateY(-50px) rotateX(15deg) rotateY(-15deg); 
+  }
+  50% { 
+    transform: translateX(-150px) translateY(-100px) rotateX(20deg) rotateY(-20deg); 
+  }
+  75% { 
+    transform: translateX(-100px) translateY(-50px) rotateX(15deg) rotateY(-15deg); 
+  }
+}
+
+/* Phone Screen Display */
+.phone-screen {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 22px;
+  background: #000; /* Solid black screen background */
+}
+
+/* Content for each individual screen */
+.screen-content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  text-align: center; /* Center text content horizontally */
+  opacity: 0;
+  transition: opacity 0.4s ease-in-out, transform 0.4s ease-in-out;
+  transform: translateY(20px); /* Slight initial offset */
+  box-sizing: border-box;
+}
+
+.screen-content.active {
+  opacity: 1;
+  transform: translateY(0); /* Slide into view */
+}
+
+/* Headings on phone screens */
+.screen-content h2 {
+  font-size: 2.2em;
+  color: #00ff88; /* Primary accent color */
+  margin-bottom: 20px;
+  text-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
+  font-weight: 700;
+  animation: textGlow 3s ease-in-out infinite; /* Apply subtle glow */
+}
+
+@keyframes textGlow {
+  0%, 100% { text-shadow: 0 0 5px rgba(0, 255, 136, 0.5); }
+  50% { text-shadow: 0 0 20px rgba(0, 255, 136, 0.8); }
+}
+
+/* Main statistics on phone screens */
+.screen-content .stat {
+  font-size: 3em; /* Larger font for key numbers */
+  font-weight: 900;
+  color: #00e0ff; /* Secondary accent color */
+  margin-bottom: 25px;
+  animation: statPulse 2s infinite ease-in-out;
+  text-shadow: 0 0 15px rgba(0, 224, 255, 0.7);
+  position: relative; /* For the ::before pseudo-element */
+}
+
+/* Subtle halo effect around the main stat */
+.screen-content .stat::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 120%;
+  height: 120%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0, 224, 255, 0.2) 0%, transparent 70%);
+  transform: translate(-50%, -50%) scale(0.8);
+  animation: statHalo 3s infinite ease-out;
+  z-index: -1;
+}
+
+@keyframes statPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+@keyframes statHalo {
+  0%, 100% { opacity: 0.6; transform: translate(-50%, -50%) scale(0.8); }
+  50% { opacity: 1; transform: translate(-50%, -50%) scale(1.1); }
+}
+
+/* Paragraph text on phone screens */
+.screen-content p {
+  font-size: 1.1em;
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.6;
+  max-width: 90%; /* Limit line length for readability */
+}
+
+/* Styling for lists within screen content */
+.stat-list {
+  list-style: none; /* Remove default bullet points */
+  padding: 0;
+  margin: 20px 0;
+  font-size: 1.15em;
+  color: #fff;
+  text-align: center; /* Center list items */
+  width: 100%;
+}
+
+.stat-list li {
+  margin-bottom: 8px;
+  line-height: 1.4;
+  text-shadow: 0 0 5px rgba(0, 255, 136, 0.3);
+}
+
+/* Ripple effects for NFC tap */
+.tap-ripple {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(0, 255, 136, 0.6);
+  pointer-events: none;
+  transform: scale(0); /* Start hidden */
+  animation: ripple 1s ease-out forwards; /* Ripple animation */
+  z-index: 1; /* Above NFC symbol */
+}
+
+@keyframes ripple {
+  to {
+      transform: scale(2.5); /* Expand */
+      opacity: 0; /* Fade out */
+  }
+}
+
+.tap-ripple-2 {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(0, 136, 255, 0.6); /* Different color for second ripple */
+  pointer-events: none;
+  transform: scale(0);
+  animation: ripple2 1.2s ease-out forwards;
+  z-index: 1;
+}
+
+@keyframes ripple2 {
+  to {
+      transform: scale(3); /* Expand more */
+      opacity: 0;
+  }
+}
+
+/* Success Checkmark Animation */
+.success-check {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: #00ff88; /* Green background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  transform: scale(0);
+  transition: all 0.3s ease-out;
+  box-shadow: 0 0 20px rgba(0, 255, 136, 0.7);
+  z-index: 2;
+}
+
+.success-check.show {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.success-check::before {
+  content: '✓'; /* Checkmark symbol */
+  font-size: 3em;
+  color: #0a0a0a; /* Dark color for checkmark */
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+  animation: checkAppear 0.5s ease-out forwards;
+}
+
+@keyframes checkAppear {
+  0% { transform: scale(0); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* Particle Animations for Background */
+.particle {
+  position: fixed;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 50%;
+  animation: float 6s linear forwards;
+  pointer-events: none;
+  z-index: -1;
+}
+
+@keyframes float {
+  0% { transform: translateY(0) translateX(0) scale(1); opacity: 0.8; }
+  100% { transform: translateY(-100vh) translateX(50px) scale(0.5); opacity: 0; }
+}
+
+/* Sound Wave Visualizations */
+.sound-waves {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  pointer-events: none;
+}
+
+.wave {
+  position: absolute;
+  border: 2px solid rgba(0, 255, 136, 0.7);
+  border-radius: 50%;
+  animation: waveExpand 2s ease-out infinite; /* Continuous wave animation */
+  opacity: 0;
+}
+
+.wave:nth-child(1) {
+  animation-delay: 0s;
+}
+
+.wave:nth-child(2) {
+  animation-delay: 0.5s;
+}
+
+.wave:nth-child(3) {
+  animation-delay: 1s;
+}
+
+@keyframes waveExpand {
+  0% { transform: scale(0); opacity: 0.8; }
+  50% { transform: scale(1); opacity: 0.4; }
+  100% { transform: scale(2); opacity: 0; }
+}
+
+/* Instructional Text */
+.instructions {
+  position: absolute;
+  bottom: 20px; /* Position at the bottom of the viewport */
+  left: 50%;
+  transform: translateX(-50%);
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 1.1em;
+  text-align: center;
+  z-index: 10;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+/* Animated 'Tap me!' indicator */
+.tap-indicator {
+  position: absolute;
+  top: -60px; /* Position above the phone */
+  width: 100px; /* Defined width for auto-margin centering */
+  left: 0; 
+  right: 0;
+  margin: auto; /* Centers horizontally */
+  background: rgba(0, 255, 136, 0.2);
+  color: #fff;
+  padding: 8px 15px;
+  border-radius: 20px;
+  font-size: 0.9em;
+  opacity: 1;
+  transition: opacity 0.3s ease;
+  animation: bounce 2s infinite ease-in-out;
+  pointer-events: none;
+  z-index: 5;
+  text-align: center; /* Ensures text inside is centered */
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(-10px); }
+}
+
+/* Progress Dots for Phone Screens */
+.progress-dots {
+  position: absolute;
+  bottom: 60px; /* Position above instructions */
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 10px;
+  z-index: 10;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.dot.active {
+  background: #00ff88;
+  transform: scale(1.2); /* Highlight active dot */
+  position: relative; /* For inner glow */
+}
+
+/* Inner glow for active dot */
+.dot.active::before {
+  content: '';
+  position: absolute;
+  top: -5px;
+  left: -5px;
+  right: -5px;
+  bottom: -5px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0, 255, 136, 0.5) 0%, transparent 70%);
+  animation: dotPulse 1.5s infinite ease-out;
+  z-index: -1;
+}
+
+@keyframes dotPulse {
+  0% { transform: scale(0.8); opacity: 0.7; }
+  50% { transform: scale(1.1); opacity: 1; }
+  100% { transform: scale(0.8); opacity: 0.7; }
+}
+
+/* Screen shake effect for container */
+.container.shake {
+  animation: screenShake 0.6s ease-in-out;
+}
+
+@keyframes screenShake {
+  0%, 100% { transform: translate(1px, 1px) rotate(0deg); }
+  10% { transform: translate(-1px, -2px) rotate(-1deg); }
+  20% { transform: translate(-3px, 0px) rotate(1deg); }
+  30% { transform: translate(3px, 2px) rotate(0deg); }
+  40% { transform: translate(1px, -1px) rotate(1deg); }
+  50% { transform: translate(-1px, 2px) rotate(-1deg); }
+  60% { transform: translate(-3px, 1px) rotate(0deg); }
+  70% { transform: translate(3px, 1px) rotate(-1deg); }
+  80% { transform: translate(-1px, -1px) rotate(1deg); }
+  90% { transform: translate(1px, 2px) rotate(0deg); }
+}
+
+/* Styles for the Flying Title Animation */
+.flying-title {
+  position: absolute;
+  top: 40%; /* Starts slightly above center */
+  left: 50%;
+  transform: translateX(-50%); /* Centers horizontally */
+  font-size: 3em;
+  font-weight: bold;
+  color: #fff;
+  text-shadow: 0 0 20px rgba(0, 255, 136, 0.7);
+  opacity: 0;
+  animation: flyInAndOut 5s ease-in-out forwards;
+  z-index: 20;
+  white-space: nowrap;
+}
+
+@keyframes flyInAndOut {
+  0% { opacity: 0; transform: translateX(-50%) translateY(-100px); } /* Start off-screen top */
+  10% { opacity: 1; transform: translateX(-50%) translateY(0); } /* Fly to center */
+  80% { opacity: 1; transform: translateX(-50%) translateY(0); } /* Hold in center */
+  100% { opacity: 0; transform: translateX(-50%) translateY(100px); } /* Fly off-screen bottom */
+}
+
+/* Styles for the Typing Animation Container */
+.typing-animation {
+  position: absolute;
+  left: 50%; /* Default to center for top position */
+  transform: translateX(-50%);
+  width: 500px; /* Width for the top typing phase */
+  min-height: 50px;
+  padding: 15px;
+  background: rgba(0, 0, 0, 0.6);
+  border-radius: 10px;
+  color: #00ff88;
+  font-family: var(--font-space-mono), monospace; /* Use the imported Space Mono font */
+  font-size: 1.5em; 
+  border: 1px solid rgba(0, 255, 136, 0.3);
+  box-shadow: 0 0 20px rgba(0, 255, 136, 0.3);
+  overflow: hidden; /* Important for typing effect to hide overflow */
+  white-space: pre-wrap; /* Preserve whitespace and allow text wrapping */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center; /* Center text within the box */
+  opacity: 0; /* Initially hidden */
+  transition: all 0.5s ease-in-out; /* Smooth transitions for position/size changes */
+}
+
+
+.typing-animation.top-position {
+  top: 60%; /* Position below the flying title */
+}
+
+.typing-animation.right-position {
+  right: 5%; /* Position on the right side */
+  top: 50%;
+  transform: translateY(-50%); 
+  width: 400px; 
+  font-size: 2.5em; 
+  text-align: left; 
+  left: unset; 
+  margin: unset; 
+}
+
+
+.typing-animation::after {
+  content: '|';
+  animation: blink-caret 0.75s step-end infinite;
+  margin-left: 5px;
+}
+
+@keyframes blink-caret {
+  from, to { border-color: transparent }
+  50% { border-color: #00ff88; } 
+}
+
+/* Floating Background Elements */
+.floating-elements {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 40%;
+  height: 100vh;
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* Floating Food Icons */
+.food-icon {
+  position: absolute;
+  font-size: 2em;
+  opacity: 0.6;
+  animation: floatElement 8s ease-in-out infinite;
+}
+
+.food-icon:nth-child(1) {
+  top: 20%;
+  right: 15%;
+  animation-delay: 0s;
+}
+
+.food-icon:nth-child(2) {
+  top: 45%;
+  right: 25%;
+  animation-delay: 2s;
+}
+
+.food-icon:nth-child(3) {
+  top: 70%;
+  right: 20%;
+  animation-delay: 4s;
+}
+
+/* Price Tags */
+.price-tag {
+  position: absolute;
+  background: rgba(0, 255, 136, 0.1);
+  padding: 8px 15px;
+  border-radius: 20px;
+  font-family: var(--font-space-mono), monospace;
+  font-size: 1.2em;
+  color: #00ff88;
+  animation: floatElement 10s ease-in-out infinite;
+}
+
+.price-tag:nth-child(4) {
+  top: 30%;
+  right: 30%;
+  animation-delay: 1s;
+}
+
+.price-tag:nth-child(5) {
+  top: 60%;
+  right: 35%;
+  animation-delay: 3s;
+}
+
+/* Decorative Lines */
+.decorative-line {
+  position: absolute;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(0, 255, 136, 0.3), transparent);
+  animation: floatElement 12s ease-in-out infinite;
+}
+
+.decorative-line:nth-child(6) {
+  top: 25%;
+  right: 40%;
+  width: 100px;
+  transform: rotate(45deg);
+  animation-delay: 0.5s;
+}
+
+.decorative-line:nth-child(7) {
+  top: 55%;
+  right: 45%;
+  width: 150px;
+  transform: rotate(-30deg);
+  animation-delay: 2.5s;
+}
+
+/* Glowing Orbs */
+.glow-orb {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0, 255, 136, 0.2), transparent 70%);
+  animation: floatElement 15s ease-in-out infinite;
+}
+
+.glow-orb:nth-child(8) {
+  top: 35%;
+  right: 50%;
+  animation-delay: 1.5s;
+}
+
+.glow-orb:nth-child(9) {
+  top: 65%;
+  right: 55%;
+  animation-delay: 3.5s;
+}
+
+/* Floating Animation */
+@keyframes floatElement {
+  0%, 100% {
+    transform: translateY(0) translateX(0) rotate(0deg);
+    opacity: 0.6;
+  }
+  25% {
+    transform: translateY(-20px) translateX(10px) rotate(5deg);
+    opacity: 0.8;
+  }
+  50% {
+    transform: translateY(0) translateX(20px) rotate(0deg);
+    opacity: 0.6;
+  }
+  75% {
+    transform: translateY(20px) translateX(10px) rotate(-5deg);
+    opacity: 0.8;
+  }
+}
