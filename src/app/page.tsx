@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react'; // Removed useMemo
 import NFCReader from './components/NFCReader';
 import Phone from './components/Phone';
 import Instructions from './components/Instructions';
