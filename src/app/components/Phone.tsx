@@ -33,7 +33,7 @@ const Phone: React.FC<PhoneProps> = ({ onTap, onScreenChange, screens }) => {
   useEffect(() => {
     const handleFirstClick = () => {
       if (typeof window !== 'undefined' && window.AudioContext) {
-        const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
         if (audioContext.state === 'suspended') {
           audioContext.resume();
         }
